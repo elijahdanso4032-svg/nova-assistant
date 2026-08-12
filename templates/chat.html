@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}{{ assistant_name }}{% endblock %}
+{% block content %}
+<div class="chat-page">
+    <header class="chat-header">
+        <span class="assistant-name">{{ assistant_name }}</span>
+        <a href="{{ url_for('logout') }}" class="logout-link">Log out</a>
+    </header>
+
+    <div class="chat-window" id="chat-window">
+        {% if not history %}
+        <div class="chat-msg assistant">
+            <p>Hey {{ name }}! I'm {{ assistant_name }}. What's on your mind?</p>
+        </div>
+        {% endif %}
+        {% for msg in history %}
+        <div class="chat-msg {{ msg.role }}">
+            <p>{{ msg.content }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <form class="chat-input-row" id="chat-form">
+        <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off" required>
+        <button type="submit">Send</button>
+    </form>
+</div>
+
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+{% endblock %}
